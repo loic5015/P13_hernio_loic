@@ -60,8 +60,8 @@ workflows:
     jobs:
       - build-and-test
       - deploy:
-        requires:
+          requires:
           - build-and-test # only run deploy-via-git job if the build job has completed
-        filters:
-        branches:
-          only: main # only run deploy-via-git job on main branch
+          filters:
+          branches:
+              only: main # only run deploy-via-git job on main branch
