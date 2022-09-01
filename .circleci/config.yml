@@ -49,8 +49,8 @@ jobs:
     steps:
       - checkout
       - run:
-        name: Deploy Main to Heroku
-        command: git push https://heroku:02c8df78-938e-4bcd-a71b-a875877fe105@git.heroku.com/oc-lettings-12345.git main
+          name: Deploy Main to Heroku
+          command: git push https://heroku:02c8df78-938e-4bcd-a71b-a875877fe105@git.heroku.com/oc-lettings-12345.git main
 
 # Invoke jobs via workflows
 # See: https://circleci.com/docs/2.0/configuration-reference/#workflows
