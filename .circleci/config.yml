@@ -63,6 +63,8 @@ jobs:
           api-key: << parameters.api-key >>
           app-name: << parameters.app-name >>
           force: true
+      - run:
+          echo $HEROKU_APP_NAME
 
 # Invoke jobs via workflows
 # See: https://circleci.com/docs/2.0/configuration-reference/#workflows
