@@ -44,16 +44,16 @@ jobs:
       - setup_remote_docker:
           docker_layer_caching: true
       - run:
-          name: Build Docker image
+          name: Build
           command: docker build -t django_p13:latest .
       - run:
-          name: Login to DockerHub
-          command: docker login --username $DOCKERHUB_USERNAME --password $DOCKERHUB_PASSWORD
+          name: Login
+          command: docker login --username $DOCKERHUB_USERNAME --password-stdin $DOCKERHUB_PASSWORD
       - run:
-          name: Link to DockerHub
+          name: Link
           command: docker tag django_p13:latest $DOCKERHUB_USERNAME/django_p13:$CIRCLE_SHA1
       - run:
-          name: push Docker image
+          name: push
           command: docker push $DOCKERHUB_USERNAME/django_p13:$CIRCLE_SHA1
 
 # Invoke jobs via workflows
