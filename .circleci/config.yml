@@ -48,7 +48,7 @@ jobs:
           command: docker build -t django_p13:latest .
       - run:
           name: Login
-          command: docker login --username $DOCKERHUB_USERNAME --password-stdin $DOCKERHUB_PASSWORD
+          command: docker login --username $DOCKERHUB_USERNAME --password $DOCKERHUB_PASSWORD
       - run:
           name: Link
           command: docker tag django_p13:latest $DOCKERHUB_USERNAME/django_p13:$CIRCLE_SHA1
