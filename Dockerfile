@@ -1,4 +1,4 @@
-FROM python:3.11-rc-alpine
+FROM python:3
 WORKDIR /usr/src/app
 ENV PYTHONDONTWRITEBYTECODE 1 \
     PYTHONUNBUFFERED 1
