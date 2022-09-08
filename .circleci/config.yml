@@ -52,10 +52,10 @@ jobs:
           command: docker login --username $DOCKERHUB_USERNAME --password $DOCKERHUB_PASSWORD
       - run:
           name: Link to DockerHub
-          command: docker tag django_p13:latest $DOCKERHUB_USERNAME/django_p13:$CIRCLE_SHA1
+          command: docker tag django_p13:latest $DOCKERHUB_USERNAME/django_p13:latest
       - run:
           name: push Docker image
-          command: docker push $DOCKERHUB_USERNAME/django_p13:$CIRCLE_SHA1
+          command: docker push $DOCKERHUB_USERNAME/django_p13:latest
 
 # Invoke jobs via workflows
 # See: https://circleci.com/docs/2.0/configuration-reference/#workflows
