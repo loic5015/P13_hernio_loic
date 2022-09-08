@@ -56,6 +56,16 @@ jobs:
           `$HEROKU_APP_NAME` is the default, so you can easily use this command by
           setting an environment variable called HEROKU_APP_NAME
         type: string
+      branch:
+        default: $CIRCLE_BRANCH
+        description: Deploy the given branch. The default value is your current branch.
+        type: string
+      force:
+        default: false
+        description: >-
+          Whether or not to force the git push (i.e. `git push -f`). Defaults to
+          false.
+        type: boolean
     steps:
       - run:
           echo $HEROKU_APP_NAME
@@ -64,8 +74,8 @@ jobs:
       - heroku/deploy-via-git:
           api-key: << parameters.api-key >>
           app-name: << parameters.app-name >>
-          branch: $CIRCLE_BRANCH
-          force: true
+          branch:  << parameters.branch >>
+          force:  << parameters.force >>
 
 
 # Invoke jobs via workflows
