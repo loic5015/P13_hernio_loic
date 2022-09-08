@@ -48,7 +48,6 @@ jobs:
           password: $DOCKERHUB_PASSWORD
     steps:
       - checkout
-      - run: apt-get install git-all
       - run:
           name: Deploy Main to Heroku
           command: git push https://heroku:02c8df78-938e-4bcd-a71b-a875877fe105@git.heroku.com/oc-lettings-12345.git main
