@@ -48,7 +48,11 @@ jobs:
         auth:
           username: loic5015
           password: $DOCKERHUB_PASSWORD
-
+    steps:
+      - checkout
+      - run:
+          name: Deploy Main to Heroku
+          command: echo "image deploye"
 
 # Invoke jobs via workflows
 # See: https://circleci.com/docs/2.0/configuration-reference/#workflows
