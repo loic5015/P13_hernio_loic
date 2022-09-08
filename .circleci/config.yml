@@ -91,6 +91,6 @@ workflows:
       - build-and-push-heroku:
           filters:
             branches:
-              only: master
+              only: main
           requires:
             - build-and-dockerhub
