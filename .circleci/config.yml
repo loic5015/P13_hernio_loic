@@ -44,12 +44,24 @@ jobs:
           command: pytest
   deploy:
     executor: heroku/default # use the default executor defined within the orb
+    parameters:
+      api-key:
+        default: HEROKU_API_KEY
+        description: The name of the environment variable containing your Heroku API Key.
+        type: env_var_name
+      app-name:
+        default: $HEROKU_APP_NAME
+        description: >-
+          The name of your Heroku App. For backwards compatibility the literal value
+          `$HEROKU_APP_NAME` is the default, so you can easily use this command by
+          setting an environment variable called HEROKU_APP_NAME
+        type: string
     steps:
       - attach_workspace:
           at: ~/oc-lettings-12345
       - heroku/deploy-via-git:
-          api-key: 02c8df78-938e-4bcd-a71b-a875877fe105
-          app-name: oc-lettings-12345
+          api-key: << parameters.api-key >>
+          app-name: << parameters.app-name >>
           force: true
 
 # Invoke jobs via workflows
@@ -60,6 +72,7 @@ workflows:
     jobs:
       - build-and-test
       - deploy:
+          context: django_p13_context
           requires:
           - build-and-test # only run deploy-via-git job if the build job has completed
           filters:
