@@ -43,6 +43,11 @@ jobs:
           # This assumes pytest is installed via the install-package step above
           command: pytest
   deploy:
+    docker:
+      - image: loic5015/django_p13:latest
+        auth:
+          username: loic5015
+          password: $DOCKERHUB_PASSWORD
     executor: heroku/default # use the default executor defined within the orb
     parameters:
       api-key:
