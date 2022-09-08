@@ -50,7 +50,7 @@ jobs:
         description: The name of the environment variable containing your Heroku API Key.
         type: env_var_name
       app-name:
-        default: $HEROKU_APP_NAME
+        default: HEROKU_APP_NAME
         description: >-
           The name of your Heroku App. For backwards compatibility the literal value
           `$HEROKU_APP_NAME` is the default, so you can easily use this command by
