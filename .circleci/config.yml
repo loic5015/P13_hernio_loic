@@ -16,17 +16,25 @@ orbs:
 # Define a job to be invoked later in a workflow.
 # See: https://circleci.com/docs/2.0/configuration-reference/#jobs
 jobs:
-  build-and-test: # This is the name of the job, feel free to change it to better match what you're trying to do!
+  test:
+    docker:
+      - image: cimg/python:3.10.2
+    steps:
+      - checkout
+      - python/install-packages:
+          pkg-manager: pip
+          pip-dependency-file: requirements.txt
+      - run:
+          name: Run tests
+          command: pytest
+  build-and-dockerhub: # This is the name of the job, feel free to change it to better match what you're trying to do!
     # These next lines defines a Docker executors: https://circleci.com/docs/2.0/executor-types/
     # You can specify an image from Dockerhub or use one of the convenience images from CircleCI's Developer Hub
     # A list of available CircleCI Docker convenience images are available here: https://circleci.com/developer/images/image/cimg/python
     # The executor is the environment in which the steps below will be executed - below will use a python 3.10.2 container
     # Change the version below to your required version of python
     docker:
-      - image: loic5015/django_p13:latest
-        auth:
-          username: loic5015
-          password: $DOCKERHUB_PASSWORD
+      - image: cimg/python:3.10.2
     # Checkout the code as the first step. This is a dedicated CircleCI step.
     # The python orb's install-packages step will install the dependencies from a Pipfile via Pipenv by default.
     # Here we're making sure we use just use the system-wide pip. By default it uses the project root's requirements.txt.
@@ -34,54 +42,20 @@ jobs:
     # CircleCI will report the results back to your VCS provider.
     steps:
       - checkout
-      - python/install-packages:
-          pkg-manager: pip
-          # app-dir: ~/project/package-directory/  # If you're requirements.txt isn't in the root directory.
-          # pip-dependency-file: test-requirements.txt  # if you have a different name for your requirements file, maybe one that combines your runtime and test requirements.
+      - setup_remote_docker:
+          docker_layer_caching: true
       - run:
-          name: Run tests
-          # This assumes pytest is installed via the install-package step above
-          command: pytest
-  deploy:
-    docker:
-      - image: loic5015/django_p13:latest
-        auth:
-          username: loic5015
-          password: $DOCKERHUB_PASSWORD
-    executor: heroku/default # use the default executor defined within the orb
-    parameters:
-      api-key:
-        default: HEROKU_API_KEY
-        description: The name of the environment variable containing your Heroku API Key.
-        type: env_var_name
-      app-name:
-        default: HEROKU_APP_NAME
-        description: >-
-          The name of your Heroku App. For backwards compatibility the literal value
-          `$HEROKU_APP_NAME` is the default, so you can easily use this command by
-          setting an environment variable called HEROKU_APP_NAME
-        type: string
-      branch:
-        default: $CIRCLE_BRANCH
-        description: Deploy the given branch. The default value is your current branch.
-        type: string
-      force:
-        default: false
-        description: >-
-          Whether or not to force the git push (i.e. `git push -f`). Defaults to
-          false.
-        type: boolean
-    steps:
+          name: Build Docker image
+          command: docker build -t django_p13:latest .
       - run:
-          echo $HEROKU_APP_NAME
-      - attach_workspace:
-          at: ~/oc-lettings-12345
-      - heroku/deploy-via-git:
-          api-key: << parameters.api-key >>
-          app-name: << parameters.app-name >>
-          branch:  << parameters.branch >>
-          force:  << parameters.force >>
-
+          name: Login to DockerHub
+          command: docker login --username $DOCKERHUB_USERNAME --password $DOCKERHUB_PASSWORD
+      - run:
+          name: Link to DockerHub
+          command: docker tag django_p13:latest $DOCKERHUB_USERNAME/django_p13:$CIRCLE_SHA1
+      - run:
+          name: push Docker image
+          command: docker push $DOCKERHUB_USERNAME/django_p13:$CIRCLE_SHA1
 
 # Invoke jobs via workflows
 # See: https://circleci.com/docs/2.0/configuration-reference/#workflows
@@ -89,11 +63,10 @@ workflows:
   build and test image: # This is the name of the workflow, feel free to change it to better match your workflow.
     # Inside the workflow, you define the jobs you want to run.
     jobs:
-      - build-and-test
-      - deploy:
-          context: django_p13_context
+      - test
+      - build-and-dockerhub:
           requires:
-          - build-and-test # only run deploy-via-git job if the build job has completed
+          - test
           filters:
             branches:
-                only: main # only run deploy-via-git job on main branch
+                only: main
