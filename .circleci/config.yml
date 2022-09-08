@@ -64,6 +64,7 @@ jobs:
       - heroku/deploy-via-git:
           api-key: << parameters.api-key >>
           app-name: << parameters.app-name >>
+          branch: $CIRCLE_BRANCH
           force: true
 
 
