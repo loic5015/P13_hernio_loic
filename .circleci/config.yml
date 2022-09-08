@@ -66,13 +66,13 @@ jobs:
       - run:
           name: Build and push Docker image to Heroku
           command: |
-            $HEROKU_API_KEY heroku container:login
-            $HEROKU_API_KEY heroku container:push -a $HEROKU_APP_NAME web
-            $HEROKU_API_KEY heroku container:release -a $HEROKU_APP_NAME web
+            test=$HEROKU_API_KEY heroku container:login
+            test=$HEROKU_API_KEY heroku container:push -a $HEROKU_APP_NAME web
+            test=$HEROKU_API_KEY heroku container:release -a $HEROKU_APP_NAME web
       - run:
           name: Migrate database
           command: |
-            $HEROKU_API_KEY heroku run python manage.py migrate -a $HEROKU_APP_NAME
+            test=$HEROKU_API_KEY heroku run python manage.py migrate -a $HEROKU_APP_NAME
 
 # Invoke jobs via workflows
 # See: https://circleci.com/docs/2.0/configuration-reference/#workflows
