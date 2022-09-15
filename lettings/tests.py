@@ -26,7 +26,7 @@ def test_Letting_model():
         title='test 1',
         address = adresse,
     )
-    expected_value = "test 2"
+    expected_value = "test 1"
     assert str(letting) == expected_value
 
 
