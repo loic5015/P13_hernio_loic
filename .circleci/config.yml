@@ -56,7 +56,7 @@ jobs:
           name: push
           command: docker push $DOCKERHUB_USERNAME/django_p13:$CIRCLE_SHA1
 
-  build-and-push-heroku:
+  push-heroku:
     machine: true
     steps:
       - checkout
@@ -88,7 +88,7 @@ workflows:
           filters:
             branches:
                 only: main
-      - build-and-push-heroku:
+      - push-heroku:
           context: django_p13_context
           filters:
             branches:
