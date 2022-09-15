@@ -76,3 +76,50 @@ Utilisation de PowerShell, comme ci-dessus sauf :
 - Pour activer l'environnement virtuel, `.\venv\Scripts\Activate.ps1` 
 - Remplacer `which <my-command>` par `(Get-Command <my-command>).Path`
 test
+
+### Lancement des tests automatises et deploiement via circleCI et heroku
+
+Prerequis:
+- Creer ou avoir un compte DockerHub
+- Creer ou avoir un compte CircleCI
+- Creer ou avoir un compte Heroku
+- Dans CircleCI lie votre compte Github a CircleCI
+
+#### CircleCi
+
+##### menu Projects:
+- Selectionner votre projet et cliquer sur Set Up Project.
+- Dans Pop up, choisir Fastest (config.yml deja present dans repo)
+##### menu organization Settings
+- Creer un fichier de contexts
+- Declarer les variables suivantes:
+- DOCKERHUB_PASSWORD
+- DOCKERHUB_USERNAME
+- HEROKU_API_KEY (voir chapitre Heroku)
+- HEROKU_APP_NAME (voir chapitre Heroku = nom du projet)
+- Changer le nom de fichier <django_p13_context> avec le nom de votre fichier de context dans config.yml
+
+#### Heroku
+- Creer un nouveau projet
+- Recuperer l'API KEY dans settings de votre compte
+- mettre a jour fichier contexts dans CircleCi
+- mettre a jour le fichier settings.py renseigner le ALLOWED_HOSTS = ['<nom du projet>.herokuapp.com']
+
+#### Sentry
+- Creer un nouveau projet django
+- mettre a jour le dsn de sentry dans settings.py
+- Tester la conformite de Sentry en allant sur l'endpoint sentry_debug/
+
+
+#### Principe de fonctionemment
+
+##### Pytest
+- Pytest sera lance a chaque commit qui sera pushe sur le repo dans Github sur toutes les branches
+
+##### container docker
+- Un nouveau docker sera cree a chaque modification de la branche main apres un succes sur les test automatises.
+- L'application sera disponible sur Heroku au lancement en cliquant sur open App dans Activity
+
+#### Sentry
+- Vous pourrez monitorer et visualiser les bugs en vous connectant sur votre compte Sentry
+
