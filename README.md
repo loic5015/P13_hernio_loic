@@ -93,10 +93,10 @@ Prerequis:
 ##### menu organization Settings
 - Creer un fichier de contexts
 - Declarer les variables suivantes:
-- DOCKERHUB_PASSWORD
-- DOCKERHUB_USERNAME
-- HEROKU_API_KEY (voir chapitre Heroku)
-- HEROKU_APP_NAME (voir chapitre Heroku = nom du projet)
+- `DOCKERHUB_PASSWORD`
+- `DOCKERHUB_USERNAME`
+- `HEROKU_API_KEY` (voir chapitre Heroku)
+- `HEROKU_APP_NAME` (voir chapitre Heroku = nom du projet)
 - Changer le nom de fichier <django_p13_context> avec le nom de votre fichier de context dans config.yml
 
 #### Heroku
