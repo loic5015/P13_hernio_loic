@@ -76,7 +76,7 @@ jobs:
       - run:
           name: collectstatic
           command: |
-            lambda=$HEROKU_API_KEY heroku run python manage.py -y collectstatic --no-input $HEROKU_APP_NAME
+            lambda=$HEROKU_API_KEY heroku run python manage.py collectstatic --no-input -a $HEROKU_APP_NAME
 
 # Invoke jobs via workflows
 # See: https://circleci.com/docs/2.0/configuration-reference/#workflows
