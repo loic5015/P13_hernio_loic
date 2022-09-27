@@ -73,10 +73,7 @@ jobs:
           name: Migrate database
           command: |
             lambda=$HEROKU_API_KEY heroku run python manage.py migrate -a $HEROKU_APP_NAME
-      - run:
-          name: collect static
-          command: |
-            lambda=$HEROKU_API_KEY heroku run python manage.py collectstatic -a $HEROKU_APP_NAME
+      
 
 # Invoke jobs via workflows
 # See: https://circleci.com/docs/2.0/configuration-reference/#workflows
