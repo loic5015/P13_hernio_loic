@@ -10,7 +10,7 @@ env = environ.Env()
 environ.Env.read_env(os.path.join(BASE_DIR, '.env'))
 
 sentry_sdk.init(
-    dsn="https://bb44d4d9d0044ec4b72b887f7d58ddf0@o1410721.ingest.sentry.io/6748242",
+    dsn=env('SENTRY'),
     integrations=[
         DjangoIntegration(),
     ],
